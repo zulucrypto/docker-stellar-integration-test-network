@@ -30,6 +30,9 @@ function main() {
 	echo "mode: $STELLAR_MODE"
 	echo "network: $NETWORK ($NETWORK_PASSPHRASE)"
 
+    # custom supervisord scripts
+    init_supervisor_custom
+
 	copy_defaults
 	init_db
 	init_stellar_core
@@ -170,6 +173,16 @@ function copy_pgpass() {
 	$CP /opt/stellar/postgresql/.pgpass /home/stellar
 	chmod 0600 /home/stellar/.pgpass
 	chown stellar:stellar /home/stellar/.pgpass
+}
+
+function init_supervisor_custom() {
+    local CP="rsync -a"
+
+    if [ "$NETWORK" == "integrationnet" ]; then
+        echo "init-supervisor-custom: copying integrationnet scripts"
+        $CP /opt/stellar-default/$NETWORK/supervisor.d/ /etc/supervisor.d/
+        $CP /opt/stellar-default/$NETWORK/home/fixtures/ /home/stellar/fixtures/
+    fi
 }
 
 function init_db() {

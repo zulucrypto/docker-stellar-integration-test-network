@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# depends on stellar core being started
-while ! stellar-core --c info |grep "Synced" &> /dev/null ; do
-  echo "Waiting for stellar core to be available..."
+# depends on horizon being started
+while ! curl --fail http://localhost:8000 &> /dev/null ; do
+  echo "Waiting for horizon to be available..."
   sleep 1
 done
 

@@ -61,3 +61,4 @@ RUN echo "[start: configuring paths and users]" \
     && echo "[end: configuring paths and users]"
 
 ENTRYPOINT ["/init", "--", "/start" ]
+CMD ["--integrationnet"]

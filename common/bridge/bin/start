@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# depends on stellar core being started
+while ! stellar-core --c info |grep "Synced" &> /dev/null ; do
+  echo "Waiting for stellar core to be available..."
+  sleep 1
+done
+
+echo "starting bridge..."
+set -e
+exec /opt/stellar/bridge/bridge -c "/opt/stellar/bridge/etc/bridge.cfg"

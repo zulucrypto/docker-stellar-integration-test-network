@@ -1,6 +1,11 @@
 FROM stellar/base:latest
 
-EXPOSE 5432 8000 11625 11626
+# 5432 - postgres
+# 8000 - horizon https://github.com/stellar/go/tree/master/services/horizon
+# 8006 - bridge server https://github.com/stellar/bridge-server
+# 11625 - stellar core peer port
+# 11626 - stellar core command port
+EXPOSE 5432 8000 8006 11625 11626
 
 RUN echo "[start: dependencies]" \
     && apt-get update \
@@ -13,6 +18,7 @@ RUN echo "[start: dependencies]" \
 
 ENV STELLAR_CORE_VERSION 0.6.3-391-708237b0
 ENV HORIZON_VERSION 0.11.0
+ENV BRIDGE_VERSION 0.0.27
 
 RUN echo "[start: stellar install]" \
     && wget -O stellar-core.deb https://s3.amazonaws.com/stellar.org/releases/stellar-core/stellar-core-${STELLAR_CORE_VERSION}_amd64.deb \
@@ -25,9 +31,21 @@ RUN echo "[start: stellar install]" \
     && rm -rf horizon.tar.gz /horizon-v${HORIZON_VERSION}-linux-amd64 \
     && echo "[end: stellar install]"
 
-ADD common /opt/stellar-default/common
-ADD pubnet /opt/stellar-default/pubnet
-ADD testnet /opt/stellar-default/testnet
+# Install stellar bridge server
+RUN echo "[start: installing stellar bridge]" \
+    && mkdir -p /opt/stellar/bridge \
+    && curl -L https://github.com/stellar/bridge-server/releases/download/v${BRIDGE_VERSION}/bridge-v${BRIDGE_VERSION}-linux-amd64.tar.gz \
+        | tar -xz -C /opt/stellar/bridge --strip-components=1 \
+    && echo "[end: installing stellar bridge"
+
+ADD common          /opt/stellar-default/common
+# Public network
+ADD pubnet          /opt/stellar-default/pubnet
+# Test network
+ADD testnet         /opt/stellar-default/testnet
+# Private integration testing network with a single node and fixtures
+ADD integrationnet  /opt/stellar-default/integrationnet
+
 ADD start /
 
 RUN echo "[start: configuring paths and users]" \

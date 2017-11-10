@@ -32,6 +32,15 @@ Eventually, you will see output like this:
 `fixtures (exit status 0; expected)` indicates that fixtures have finished loading
 and the private network is ready for use.
 
+### Connecting to Horizon
+
+Since this network uses a custom passphrase you will need to use it when signing transactions.
+
+**Java SDK Example**
+```
+sdk.Network.use(new sdk.Network('Integration Test Network ; zulucrypto'))
+```
+
 ## Initial network state
 
 ### Friendbot

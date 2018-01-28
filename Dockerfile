@@ -16,7 +16,7 @@ RUN echo "[start: dependencies]" \
     && echo "[end: dependencies]"
 
 
-ENV STELLAR_CORE_VERSION 0.6.3-391-708237b0
+ENV STELLAR_CORE_VERSION 9.1.0-494-a278e959
 ENV HORIZON_VERSION 0.11.0
 ENV BRIDGE_VERSION 0.0.27
 

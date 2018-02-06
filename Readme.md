@@ -78,6 +78,28 @@ $ curl http://localhost:8000/accounts/GAPSWEVEZVAOTW6AJM26NIVBITCKXNOMGBZAOPFTFD
  ...
 ```
 
+## Upgrades / Network Changes
+
+Since this is a one-node network, you can change any properties by using the `upgrades` command.
+
+By default, the network is configured to match the stellar production network:
+ * Protocol version 9
+ * Base reserve 0.5 XLM
+ 
+If you wanted to change the fee to 0.00002 XLM and the base reserve to 0.25 XLM
+
+```bash
+# Enter the container
+$ docker exec -it your-container-name bash
+
+# Run the stellar core upgrade command
+$ stellar-core --c "upgrades?mode=set&upgradetime=2000-01-01T00:00:00Z&basereserve=2500000&fee=200"
+```
+
+Changes will be applied in the next ledger.
+
+For more information on what upgrades you can set, see "upgrades" here: https://www.stellar.org/developers/stellar-core/software/commands.html#http-commands
+
 ## References
 
 * Heavily based on https://github.com/stellar/docker-stellar-core-horizon

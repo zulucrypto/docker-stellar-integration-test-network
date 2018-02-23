@@ -100,6 +100,12 @@ Changes will be applied in the next ledger.
 
 For more information on what upgrades you can set, see "upgrades" here: https://www.stellar.org/developers/stellar-core/software/commands.html#http-commands
 
+## Included Software Versions
+
+ * Stellar Core 9.1.0-494-a278e959
+ * Horizon 0.11.1
+ * Bridge 0.0.30
+
 ## References
 
 * Heavily based on https://github.com/stellar/docker-stellar-core-horizon

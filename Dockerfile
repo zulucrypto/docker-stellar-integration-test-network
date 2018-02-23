@@ -17,8 +17,8 @@ RUN echo "[start: dependencies]" \
 
 
 ENV STELLAR_CORE_VERSION 9.1.0-494-a278e959
-ENV HORIZON_VERSION 0.11.0
-ENV BRIDGE_VERSION 0.0.27
+ENV HORIZON_VERSION 0.11.1
+ENV BRIDGE_VERSION 0.0.30
 
 RUN echo "[start: stellar install]" \
     && wget -O stellar-core.deb https://s3.amazonaws.com/stellar.org/releases/stellar-core/stellar-core-${STELLAR_CORE_VERSION}_amd64.deb \

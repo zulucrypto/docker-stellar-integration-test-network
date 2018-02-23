@@ -6,6 +6,10 @@ while ! curl --silent --fail http://localhost:8000 | grep "core_latest_ledger" |
   sleep 1
 done
 
-echo "starting bridge..."
 set -e
+
+echo "[bridge] Setting up database..."
+/opt/stellar/bridge/bridge -c "/opt/stellar/bridge/etc/bridge.cfg" --migrate-db
+
+echo "[bridge] starting..."
 exec /opt/stellar/bridge/bridge -c "/opt/stellar/bridge/etc/bridge.cfg"

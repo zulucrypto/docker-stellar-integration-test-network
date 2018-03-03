@@ -42,6 +42,14 @@ function main() {
 
 	stop_postgres  # this gets started in init_db
 
+	echo "**************************************************************"
+	echo "Starting Stellar services..."
+	echo ""
+	echo "Stellar Core    v9.1.0-494-a278e959"
+	echo "Horizon         v0.11.1"
+	echo "Bridge          v0.0.30"
+	echo "**************************************************************"
+
 	# launch services
 	exec_supervisor
 }

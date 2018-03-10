@@ -93,7 +93,7 @@ If you wanted to change the fee to 0.00002 XLM and the base reserve to 0.25 XLM
 $ docker exec -it your-container-name bash
 
 # Run the stellar core upgrade command
-$ stellar-core --c "upgrades?mode=set&upgradetime=2000-01-01T00:00:00Z&basereserve=2500000&fee=200"
+$ stellar-core --c "upgrades?mode=set&upgradetime=2000-01-01T00:00:00Z&basereserve=2500000&basefee=200"
 ```
 
 Changes will be applied in the next ledger.

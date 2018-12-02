@@ -7,8 +7,9 @@ export SUPHOME="$STELLAR_HOME/supervisor"
 export COREHOME="$STELLAR_HOME/core"
 export HZHOME="$STELLAR_HOME/horizon"
 export BRIDGEHOME="$STELLAR_HOME/bridge"
+export FRIENDBOTHOME="$STELLAR_HOME/friendbot"
 
-export PGBIN="/usr/lib/postgresql/9.4/bin"
+export PGBIN="/usr/lib/postgresql/9.6/bin"
 export PGDATA="$PGHOME/data"
 export PGUSER="stellar"
 export PGPORT=5432
@@ -38,6 +39,7 @@ function main() {
 	init_stellar_core
 	init_bridge_server # must come after init_stellar_core!
 	init_horizon
+	init_friendbot
 	copy_pgpass
 
 	stop_postgres  # this gets started in init_db
@@ -45,9 +47,10 @@ function main() {
 	echo "**************************************************************"
 	echo "Starting Stellar services..."
 	echo ""
-	echo "Stellar Core    v9.1.0-494-a278e959"
-	echo "Horizon         v0.11.1"
-	echo "Bridge          v0.0.30"
+	echo "Stellar Core    v10.0.0-685-1fc018b4"
+	echo "Horizon         v0.15.1"
+	echo "Bridge          v0.0.31"
+	echo "Friendbot       v0.0.1"
 	echo "**************************************************************"
 
 	# launch services
@@ -299,6 +302,22 @@ function init_horizon() {
 	popd
 }
 
+function init_friendbot() {
+	if [ -f $FRIENDBOTHOME/.quickstart-initialized ]; then
+		echo "friendbot: already initialized"
+		return 0
+	fi
+
+	cp -R /opt/stellar-default/common/friendbot/ $FRIENDBOTHOME
+
+	pushd $FRIENDBOTHOME
+
+	run_silent "chown-friendbot" chown stellar:stellar .
+
+	touch .quickstart-initialized
+	popd
+}
+
 function exec_supervisor() {
 	echo "starting suervisor"
 	exec supervisord -n -c $SUPHOME/etc/supervisord.conf
@@ -348,14 +367,16 @@ function start_postgres() {
 }
 
 function stop_postgres() {
+    echo "Stopping: '$CURRENT_POSTGRES_PID'"
 	if [ -z "$CURRENT_POSTGRES_PID" ]; then
 		return 0
 	fi
 
-	kill $CURRENT_POSTGRES_PID
 	# wait for postgres to die
 	while kill -0 "$CURRENT_POSTGRES_PID" &> /dev/null; do
-		sleep 0.5
+	    # If kill doesn't work, use "killall" on subsequent runs since the PID may be invalid
+	    killall postgres
+		sleep 5
 	done
 	echo "postgres: down"
 }

@@ -5,13 +5,14 @@ Horizon.
 
 ## Quickstart
 
-Start a docker container with port 8000 (Horizon) available:
+Start a docker container with Horizon (port 8000) and Friendbot (port 8004) available:
 
 ```$bash
 $ docker run -it \
     --rm \
     --name horizon-integrationnet \
     -p 8000:8000 \
+    -p 8004:8004 \
     zulucrypto/stellar-integration-test-network
 ```
 
@@ -48,7 +49,7 @@ sdk.Network.use(new sdk.Network('Integration Test Network ; zulucrypto'))
 Friendbot is funded with XLM and can be used to fund additional accounts:
 
 ```bash
-curl http://localhost:8000/friendbot?addr=GAJCCCRIRXAYEU2ATNQAFYH4E2HKLN2LCKM2VPXCTJKIBVTRSOLEGCJZ
+curl http://localhost:8004?addr=GAJCCCRIRXAYEU2ATNQAFYH4E2HKLN2LCKM2VPXCTJKIBVTRSOLEGCJZ
 ```
 
 The network is setup with several initial accounts:
@@ -102,9 +103,10 @@ For more information on what upgrades you can set, see "upgrades" here: https://
 
 ## Included Software Versions
 
- * Stellar Core 9.1.0-494-a278e959
- * Horizon 0.11.1
- * Bridge 0.0.30
+ * Stellar Core 10.0.0-685-1fc018b4
+ * Horizon 0.15.1
+ * Bridge 0.0.31
+ * Friendbot 0.0.1
 
 ## References
 

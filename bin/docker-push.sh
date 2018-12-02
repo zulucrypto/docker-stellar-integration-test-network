@@ -4,7 +4,7 @@
 #
 # Example usage:
 #   $ git tag -a v0.2.1 -m "Tagging 0.2.1"
-#   $ docker/docker-push.sh
+#   $ bin/docker-push.sh
 #
 # NOTE: Versions must start with "v"
 #

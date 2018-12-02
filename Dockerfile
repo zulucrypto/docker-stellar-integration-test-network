@@ -40,14 +40,6 @@ RUN echo "[start: installing stellar bridge]" \
         | tar -xz -C /opt/stellar/bridge --strip-components=1 \
     && echo "[end: installing stellar bridge"
 
-# Install friendbot
-ENV FRIENDBOT_VERSION 0.0.1
-RUN echo "[start: friendbot install]" \
-    && wget -O friendbot.tar.gz https://github.com/stellar/go/releases/download/friendbot-v${FRIENDBOT_VERSION}/friendbot-v${FRIENDBOT_VERSION}-linux-amd64.tar.gz \
-    && tar xf friendbot.tar.gz --to-stdout friendbot-v${FRIENDBOT_VERSION}-linux-amd64/friendbot > /opt/stellar-default/common/friendbot/friendbot \
-    && chmod a+x /opt/stellar-default/common/friendbot/friendbot \
-    && echo "[end: friendbot install]"
-
 ADD common          /opt/stellar-default/common
 # Public network
 ADD pubnet          /opt/stellar-default/pubnet
@@ -69,6 +61,14 @@ RUN echo "[start: configuring paths and users]" \
     && ln -s /opt/stellar/horizon/etc/horizon.env /horizon.env \
     && chmod +x /start \
     && echo "[end: configuring paths and users]"
+
+# Install friendbot
+ENV FRIENDBOT_VERSION 0.0.1
+RUN echo "[start: friendbot install]" \
+    && wget -O friendbot.tar.gz https://github.com/stellar/go/releases/download/friendbot-v${FRIENDBOT_VERSION}/friendbot-v${FRIENDBOT_VERSION}-linux-amd64.tar.gz \
+    && tar xf friendbot.tar.gz --to-stdout friendbot-v${FRIENDBOT_VERSION}-linux-amd64/friendbot > /opt/stellar-default/common/friendbot/friendbot \
+    && chmod a+x /opt/stellar-default/common/friendbot/friendbot \
+    && echo "[end: friendbot install]"
 
 ENTRYPOINT ["/init", "--", "/start" ]
 CMD ["--integrationnet"]
